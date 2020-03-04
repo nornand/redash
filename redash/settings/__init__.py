@@ -29,7 +29,7 @@ STATSD_USE_TAGS = parse_boolean(os.environ.get("REDASH_STATSD_USE_TAGS", "false"
 
 # Connection settings for Redash's own database (where we store the queries, results, etc)
 SQLALCHEMY_DATABASE_URI = os.environ.get(
-    "REDASH_DATABASE_URL", os.environ.get("DATABASE_URL", "postgresql:///postgres")
+    "REDASH_DATABASE_URL", os.environ.get("DATABASE_URL", "postgresql://postgres:postgres@localhost/postgres")
 )
 SQLALCHEMY_MAX_OVERFLOW = int_or_none(os.environ.get("SQLALCHEMY_MAX_OVERFLOW"))
 SQLALCHEMY_POOL_SIZE = int_or_none(os.environ.get("SQLALCHEMY_POOL_SIZE"))
@@ -315,6 +315,7 @@ default_query_runners = [
     "redash.query_runner.mongodb",
     "redash.query_runner.couchbase",
     "redash.query_runner.mysql",
+    "redash.query_runner.oracle", #add oracle support  2020-03-04
     "redash.query_runner.pg",
     "redash.query_runner.url",
     "redash.query_runner.influx_db",

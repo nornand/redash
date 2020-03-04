@@ -16,7 +16,7 @@ from redash.settings import parse_boolean
 from redash.utils import json_dumps, json_loads
 
 try:
-    import MySQLdb
+    import pymysql  #2020-03-04  from mysqldb to pymysql
 
     enabled = True
 except ImportError:
@@ -117,7 +117,7 @@ class Mysql(BaseSQLQueryRunner):
         if ssl_options:
             params["ssl"] = ssl_options
 
-        connection = MySQLdb.connect(**params)
+        connection = pymysql.connect(**params)
 
         return connection
 
@@ -206,7 +206,7 @@ class Mysql(BaseSQLQueryRunner):
                 r.error = "No data was returned."
 
             cursor.close()
-        except MySQLdb.Error as e:
+        except pymysql.Error as e:
             if cursor:
                 cursor.close()
             r.json_data = None
@@ -242,7 +242,7 @@ class Mysql(BaseSQLQueryRunner):
             query = "KILL %d" % (thread_id)
             logging.debug(query)
             cursor.execute(query)
-        except MySQLdb.Error as e:
+        except pymysql.Error as e:
             if cursor:
                 cursor.close()
             error = e.args[1]
